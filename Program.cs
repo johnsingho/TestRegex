@@ -12,13 +12,14 @@ namespace T1
         public static readonly string stempl = "hello {{name}}, 欢迎光临{{location}},{{other}}!";
         static void Main(string[] args)
         {
-            Test1();
+            TestMatch();
             Console.WriteLine("Test2");
-            Test2();
+            TestMatchIgnoreCase();
+            TestReplace();
             Console.ReadKey();
         }
 
-        private static void Test1()
+        private static void TestMatch()
         {
             var spattern = @"\{\s*\{(\w+)\}\s*\}";
             var reg = new Regex(spattern);
@@ -31,7 +32,7 @@ namespace T1
         }
 
         //ignore case
-        private static void Test2()
+        private static void TestMatchIgnoreCase()
         {
             const string TEMPLATE_KEYWORD_HEAD = @"\{\s*\{\s*(";
             const string TEMPLATE_KEYWORD_TAIL = @")\s*\}\s*\}";
@@ -50,6 +51,15 @@ namespace T1
             {
                 Console.WriteLine("{0} not match", keyword);
             }
+        }
+
+        private static void TestReplace()
+        {
+            string strLong = "hello 【测试】，欢迎!";
+            var sPat = @"【(.+)】";
+            var reg = new Regex(sPat);
+            var sNew = reg.Replace(strLong, "【*$1*】");
+            Console.WriteLine("new: " + sNew);
         }
     }
 }
